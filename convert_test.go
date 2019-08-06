@@ -83,9 +83,9 @@ func TestBuildPath(t *testing.T) {
 }
 
 func TestConvertProof(t *testing.T) {
-	for i := 0; i < 3; i++ {
+	for i := 0; i < 100; i++ {
 		t.Run(fmt.Sprintf("Run %d", i), func(t *testing.T) {
-			proof := GenerateRangeProof(7)
+			proof := GenerateRangeProof(57)
 
 			converted, err := ConvertExistenceProof(proof.Proof, proof.Key, proof.Value)
 			if err != nil {

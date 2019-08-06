@@ -43,8 +43,6 @@ func convertLeafOp() *proofs.LeafOp {
 }
 
 func convertInnerOps(p *merkle.SimpleProof) ([]*proofs.InnerOp, error) {
-	fmt.Printf("%d of %d\n", p.Index, p.Total)
-
 	var inners []*proofs.InnerOp
 	path := buildPath(p.Index, p.Total)
 
