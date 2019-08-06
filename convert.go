@@ -1,8 +1,6 @@
 package iavlproofs
 
 import (
-	"fmt"
-
 	proofs "github.com/confio/proofs/go"
 	"github.com/tendermint/tendermint/crypto/merkle"
 )
@@ -13,22 +11,27 @@ import (
 // This is the simplest case of the range proof and we will focus on
 // demoing compatibility here
 func ConvertExistenceProof(p *merkle.SimpleProof, key, value []byte) (*proofs.ExistenceProof, error) {
-	return nil, fmt.Errorf("Not implemented")
+	proof := &proofs.ExistenceProof{
+		Key:   key,
+		Value: value,
+		Leaf:  convertLeafOp(),
+	}
+	return proof, nil
 }
 
-// func convertLeafOp(version int64) *proofs.LeafOp {
-// 	// this is adapted from iavl/proof.go:proofLeafNode.Hash()
-// 	prefix := aminoVarInt(0)
-// 	prefix = append(prefix, aminoVarInt(1)...)
-// 	prefix = append(prefix, aminoVarInt(version)...)
+// this is adapted from merkle/hash.go:leafHash()
+// and merkle/simple_map.go:KVPair.Bytes()
+func convertLeafOp() *proofs.LeafOp {
+	prefix := aminoVarInt(0)
 
-// 	return &proofs.LeafOp{
-// 		Hash:         proofs.HashOp_SHA256,
-// 		PrehashValue: proofs.HashOp_SHA256,
-// 		Length:       proofs.LengthOp_VAR_PROTO,
-// 		Prefix:       prefix,
-// 	}
-// }
+	return &proofs.LeafOp{
+		Hash:         proofs.HashOp_SHA256,
+		PrehashKey:   proofs.HashOp_NO_HASH,
+		PrehashValue: proofs.HashOp_SHA256,
+		Length:       proofs.LengthOp_VAR_PROTO,
+		Prefix:       prefix,
+	}
+}
 
 // // we cannot get the proofInnerNode type, so we need to do the whole path in one function
 // func convertInnerOps(path iavl.PathToLeaf) []*proofs.InnerOp {
@@ -70,21 +73,21 @@ func ConvertExistenceProof(p *merkle.SimpleProof, key, value []byte) (*proofs.Ex
 // 	return steps
 // }
 
-// func aminoVarInt(orig int64) []byte {
-// 	// amino-specific byte swizzling
-// 	i := uint64(orig) << 1
-// 	if orig < 0 {
-// 		i = ^i
-// 	}
+func aminoVarInt(orig int64) []byte {
+	// amino-specific byte swizzling
+	i := uint64(orig) << 1
+	if orig < 0 {
+		i = ^i
+	}
 
-// 	// avoid multiple allocs for normal case
-// 	res := make([]byte, 0, 8)
+	// avoid multiple allocs for normal case
+	res := make([]byte, 0, 8)
 
-// 	// standard protobuf encoding
-// 	for i >= 1<<7 {
-// 		res = append(res, uint8(i&0x7f|0x80))
-// 		i >>= 7
-// 	}
-// 	res = append(res, uint8(i))
-// 	return res
-// }
+	// standard protobuf encoding
+	for i >= 1<<7 {
+		res = append(res, uint8(i&0x7f|0x80))
+		i >>= 7
+	}
+	res = append(res, uint8(i))
+	return res
+}
