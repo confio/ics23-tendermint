@@ -63,6 +63,16 @@ func convertInnerOps(p *merkle.SimpleProof) []*proofs.InnerOp {
 	return inners
 }
 
+// buildPath returns a list of steps from leaf to root
+// in each step, true means index is left side, false index is right side
+func buildPath(idx int, total int) []bool {
+	if total < 2 {
+		return nil
+	}
+	leafLeft := idx%2 == 0
+	return append([]bool{leafLeft}, buildPath(idx/2, total/2)...)
+}
+
 // // we cannot get the proofInnerNode type, so we need to do the whole path in one function
 // func convertInnerOps(path iavl.PathToLeaf) []*proofs.InnerOp {
 // 	steps := make([]*proofs.InnerOp, 0, len(path))

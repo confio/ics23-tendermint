@@ -29,10 +29,48 @@ func TestLeafOp(t *testing.T) {
 	}
 }
 
-func XTestConvertProof(t *testing.T) {
-	for i := 0; i < 2; i++ {
+func TestBuildPath(t *testing.T) {
+	cases := map[string]struct {
+		idx      int
+		total    int
+		expected []bool
+	}{
+		"pair left": {
+			idx:      0,
+			total:    2,
+			expected: []bool{true},
+		},
+		"pair right": {
+			idx:      1,
+			total:    2,
+			expected: []bool{false},
+		},
+		"power of 2": {
+			idx:      3,
+			total:    8,
+			expected: []bool{false, false, true},
+		},
+	}
+
+	for name, tc := range cases {
+		t.Run(name, func(t *testing.T) {
+			path := buildPath(tc.idx, tc.total)
+			if len(path) != len(tc.expected) {
+				t.Fatalf("Got %v\nExpected %v", path, tc.expected)
+			}
+			for i := range path {
+				if path[i] != tc.expected[i] {
+					t.Fatalf("Differ at %d\nGot %v\nExpected %v", i, path, tc.expected)
+				}
+			}
+		})
+	}
+}
+
+func TestConvertProof(t *testing.T) {
+	for i := 0; i < 3; i++ {
 		t.Run(fmt.Sprintf("Run %d", i), func(t *testing.T) {
-			proof := GenerateRangeProof(200)
+			proof := GenerateRangeProof(8)
 
 			converted, err := ConvertExistenceProof(proof.Proof, proof.Key, proof.Value)
 			if err != nil {
