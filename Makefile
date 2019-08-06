@@ -10,4 +10,5 @@ test:
 	go test -mod=readonly .
 
 testgen:
-	go run -mod=readonly ./cmd/testgen-simple
+	# Usage: make testgen > CONFIO/PROOFS/testdata/tendermint/existence1.json
+	@go run -mod=readonly ./cmd/testgen-simple
