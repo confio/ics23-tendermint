@@ -1,6 +1,9 @@
 package iavlproofs
 
 import (
+	"fmt"
+	"math/bits"
+
 	proofs "github.com/confio/proofs/go"
 	"github.com/tendermint/tendermint/crypto/merkle"
 )
@@ -15,6 +18,7 @@ func ConvertExistenceProof(p *merkle.SimpleProof, key, value []byte) (*proofs.Ex
 		Key:   key,
 		Value: value,
 		Leaf:  convertLeafOp(),
+		Path:  convertInnerOps(p),
 	}
 	return proof, nil
 }
@@ -22,7 +26,7 @@ func ConvertExistenceProof(p *merkle.SimpleProof, key, value []byte) (*proofs.Ex
 // this is adapted from merkle/hash.go:leafHash()
 // and merkle/simple_map.go:KVPair.Bytes()
 func convertLeafOp() *proofs.LeafOp {
-	prefix := aminoVarInt(0)
+	prefix := []byte{0}
 
 	return &proofs.LeafOp{
 		Hash:         proofs.HashOp_SHA256,
@@ -31,6 +35,32 @@ func convertLeafOp() *proofs.LeafOp {
 		Length:       proofs.LengthOp_VAR_PROTO,
 		Prefix:       prefix,
 	}
+}
+
+func convertInnerOps(p *merkle.SimpleProof) []*proofs.InnerOp {
+	fmt.Printf("%d of %d\n", p.Index, p.Total)
+
+	idx := p.Index
+	// total := p.Total
+
+	var inners []*proofs.InnerOp
+	for _, aunt := range p.Aunts {
+		// TODO: determine if left or right
+		// code adapted from merkle/simple_proof.go:computeHashFromAunts
+		auntLeft := idx%2 == 1
+		idx = idx / 2
+
+		// combine with: 0x01 || lefthash || righthash
+		inner := &proofs.InnerOp{Hash: proofs.HashOp_SHA256}
+		if auntLeft {
+			inner.Prefix = append([]byte{1}, aunt...)
+		} else {
+			inner.Prefix = []byte{1}
+			inner.Suffix = aunt
+		}
+		inners = append(inners, inner)
+	}
+	return inners
 }
 
 // // we cannot get the proofInnerNode type, so we need to do the whole path in one function
@@ -73,21 +103,34 @@ func convertLeafOp() *proofs.LeafOp {
 // 	return steps
 // }
 
-func aminoVarInt(orig int64) []byte {
-	// amino-specific byte swizzling
-	i := uint64(orig) << 1
-	if orig < 0 {
-		i = ^i
+func getSplitPoint(length int) int {
+	if length < 1 {
+		panic("Trying to split a tree with size < 1")
 	}
-
-	// avoid multiple allocs for normal case
-	res := make([]byte, 0, 8)
-
-	// standard protobuf encoding
-	for i >= 1<<7 {
-		res = append(res, uint8(i&0x7f|0x80))
-		i >>= 7
+	uLength := uint(length)
+	bitlen := bits.Len(uLength)
+	k := 1 << uint(bitlen-1)
+	if k == length {
+		k >>= 1
 	}
-	res = append(res, uint8(i))
-	return res
+	return k
 }
+
+// func aminoVarInt(orig int64) []byte {
+// 	// amino-specific byte swizzling
+// 	i := uint64(orig) << 1
+// 	if orig < 0 {
+// 		i = ^i
+// 	}
+
+// 	// avoid multiple allocs for normal case
+// 	res := make([]byte, 0, 8)
+
+// 	// standard protobuf encoding
+// 	for i >= 1<<7 {
+// 		res = append(res, uint8(i&0x7f|0x80))
+// 		i >>= 7
+// 	}
+// 	res = append(res, uint8(i))
+// 	return res
+// }
