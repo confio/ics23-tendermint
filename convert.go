@@ -14,11 +14,16 @@ import (
 // This is the simplest case of the range proof and we will focus on
 // demoing compatibility here
 func ConvertExistenceProof(p *merkle.SimpleProof, key, value []byte) (*proofs.ExistenceProof, error) {
+	path, err := convertInnerOps(p)
+	if err != nil {
+		return nil, err
+	}
+
 	proof := &proofs.ExistenceProof{
 		Key:   key,
 		Value: value,
 		Leaf:  convertLeafOp(),
-		Path:  convertInnerOps(p),
+		Path:  path,
 	}
 	return proof, nil
 }
@@ -37,34 +42,35 @@ func convertLeafOp() *proofs.LeafOp {
 	}
 }
 
-func convertInnerOps(p *merkle.SimpleProof) []*proofs.InnerOp {
+func convertInnerOps(p *merkle.SimpleProof) ([]*proofs.InnerOp, error) {
 	fmt.Printf("%d of %d\n", p.Index, p.Total)
 
-	idx := p.Index
-	// total := p.Total
-
 	var inners []*proofs.InnerOp
-	for _, aunt := range p.Aunts {
-		// TODO: determine if left or right
-		// code adapted from merkle/simple_proof.go:computeHashFromAunts
-		auntLeft := idx%2 == 1
-		idx = idx / 2
+	path := buildPath(p.Index, p.Total)
+
+	if len(p.Aunts) != len(path) {
+		return nil, fmt.Errorf("Calculated a path different length (%d) than provided by SimpleProof (%d)", len(path), len(p.Aunts))
+	}
+
+	for i, aunt := range p.Aunts {
+		auntRight := path[i]
 
 		// combine with: 0x01 || lefthash || righthash
 		inner := &proofs.InnerOp{Hash: proofs.HashOp_SHA256}
-		if auntLeft {
-			inner.Prefix = append([]byte{1}, aunt...)
-		} else {
+		if auntRight {
 			inner.Prefix = []byte{1}
 			inner.Suffix = aunt
+		} else {
+			inner.Prefix = append([]byte{1}, aunt...)
 		}
 		inners = append(inners, inner)
 	}
-	return inners
+	return inners, nil
 }
 
 // buildPath returns a list of steps from leaf to root
 // in each step, true means index is left side, false index is right side
+// code adapted from merkle/simple_proof.go:computeHashFromAunts
 func buildPath(idx int, total int) []bool {
 	if total < 2 {
 		return nil
