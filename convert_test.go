@@ -50,6 +50,21 @@ func TestBuildPath(t *testing.T) {
 			total:    8,
 			expected: []bool{false, false, true},
 		},
+		"size of 7 right most": {
+			idx:      6,
+			total:    7,
+			expected: []bool{false, false},
+		},
+		"size of 6 right-left (from top)": {
+			idx:      4,
+			total:    6,
+			expected: []bool{true, false},
+		},
+		"size of 6 left-right-left (from top)": {
+			idx:      2,
+			total:    7,
+			expected: []bool{true, false, true},
+		},
 	}
 
 	for name, tc := range cases {
@@ -70,7 +85,7 @@ func TestBuildPath(t *testing.T) {
 func TestConvertProof(t *testing.T) {
 	for i := 0; i < 3; i++ {
 		t.Run(fmt.Sprintf("Run %d", i), func(t *testing.T) {
-			proof := GenerateRangeProof(8)
+			proof := GenerateRangeProof(7)
 
 			converted, err := ConvertExistenceProof(proof.Proof, proof.Key, proof.Value)
 			if err != nil {
