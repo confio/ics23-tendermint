@@ -12,8 +12,12 @@ github.com/btcsuite/snappy-go v0.0.0-20151229074030-0bdef8d06723/go.mod h1:8woku
 github.com/btcsuite/websocket v0.0.0-20150119174127-31079b680792/go.mod h1:ghJtEyQwv5/p4Mg4C0fgbePVuGr935/5ddU9Z3TmDRY=
 github.com/btcsuite/winsvc v1.0.0/go.mod h1:jsenWakMcC0zFBFurPLEAyrnc/teJEM1O46fmI40EZs=
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
+github.com/confio/proofs v0.3.1 h1:ErGP21O9oRxQtvSsobW0ZOptbZWGZz9Z5IdmN4igGYo=
+github.com/confio/proofs v0.3.1/go.mod h1:bhWMaAypTuzoTGgVg0CDp5kw3mFrUVrPgwVE4vLjj90=
 github.com/confio/proofs/go v0.0.0-20190805152205-de743e64f0fb h1:rS/lyrNsqaGwWKyXKSqvG4qu0Lg6THh0zH5EXGEQy8w=
 github.com/confio/proofs/go v0.0.0-20190805152205-de743e64f0fb/go.mod h1:NqF1V1FlsE96h8vZYDTKq/f/xQvOAQXMZx6hSnD4XFA=
+github.com/confio/proofs/go v0.0.0-20190816105201-26988e00a260 h1:od9WADNZz7G4Vb6D6ektTPpIqBHPBbCSIRPm2TnjikM=
+github.com/confio/proofs/go v0.0.0-20190816105201-26988e00a260/go.mod h1:VBTcczTAnw9Vrnk8d9tJhoMswQE2dy/Yp2r2798oXk0=
 github.com/davecgh/go-spew v0.0.0-20171005155431-ecdeabc65495/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
