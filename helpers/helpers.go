@@ -1,6 +1,8 @@
 package helpers
 
 import (
+	"sort"
+
 	"github.com/tendermint/tendermint/crypto/merkle"
 	cmn "github.com/tendermint/tendermint/libs/common"
 )
@@ -44,13 +46,17 @@ const (
 )
 
 func SortedKeys(data map[string][]byte) []string {
-	// TODO: better implementation
-	_, _, allkeys := merkle.SimpleProofsFromMap(data)
-	return allkeys
+	keys := make([]string, len(data))
+	i := 0
+	for k := range data {
+		keys[i] = k
+		i++
+	}
+	sort.Strings(keys)
+	return keys
 }
 
 func CalcRoot(data map[string][]byte) []byte {
-	// TODO: better implementation
 	root, _, _ := merkle.SimpleProofsFromMap(data)
 	return root
 }
