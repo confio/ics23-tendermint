@@ -1,4 +1,4 @@
-.PHONY: test
+.PHONY: build test testgen
 
 GENDIR ?= ./testdata
 
