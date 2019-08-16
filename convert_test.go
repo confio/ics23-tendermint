@@ -8,7 +8,7 @@ import (
 )
 
 func TestLeafOp(t *testing.T) {
-	proof := helpers.GenerateRangeProof(20)
+	proof := helpers.GenerateRangeProof(20, helpers.Middle)
 
 	converted, err := convertExistenceProof(proof.Proof, proof.Key, proof.Value)
 	if err != nil {
@@ -86,7 +86,7 @@ func TestBuildPath(t *testing.T) {
 func TestConvertProof(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		t.Run(fmt.Sprintf("Run %d", i), func(t *testing.T) {
-			proof := helpers.GenerateRangeProof(57)
+			proof := helpers.GenerateRangeProof(57, helpers.Left)
 
 			converted, err := convertExistenceProof(proof.Proof, proof.Key, proof.Value)
 			if err != nil {
