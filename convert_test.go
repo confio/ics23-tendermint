@@ -1,15 +1,16 @@
-package iavlproofs
+package tmproofs
 
 import (
 	"bytes"
 	"fmt"
 	"testing"
+	"github.com/confio/proofs-tendermint/helpers"
 )
 
 func TestLeafOp(t *testing.T) {
-	proof := GenerateRangeProof(20)
+	proof := helpers.GenerateRangeProof(20, helpers.Middle)
 
-	converted, err := ConvertExistenceProof(proof.Proof, proof.Key, proof.Value)
+	converted, err := convertExistenceProof(proof.Proof, proof.Key, proof.Value)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -85,9 +86,9 @@ func TestBuildPath(t *testing.T) {
 func TestConvertProof(t *testing.T) {
 	for i := 0; i < 100; i++ {
 		t.Run(fmt.Sprintf("Run %d", i), func(t *testing.T) {
-			proof := GenerateRangeProof(57)
+			proof := helpers.GenerateRangeProof(57, helpers.Left)
 
-			converted, err := ConvertExistenceProof(proof.Proof, proof.Key, proof.Value)
+			converted, err := convertExistenceProof(proof.Proof, proof.Key, proof.Value)
 			if err != nil {
 				t.Fatal(err)
 			}
