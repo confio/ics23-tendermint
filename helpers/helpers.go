@@ -43,6 +43,19 @@ const (
 	Middle
 )
 
+func SortedKeys(data map[string][]byte) []string {
+	// TODO: better implementation
+	_, _, allkeys := merkle.SimpleProofsFromMap(data)
+	return allkeys
+}
+
+func CalcRoot(data map[string][]byte) []byte {
+	// TODO: better implementation
+	root, _, _ := merkle.SimpleProofsFromMap(data)
+	return root
+}
+
+
 // GetKey this returns a key, on Left/Right/Middle
 func GetKey(allkeys []string, loc Where) string {
 	if loc == Left {

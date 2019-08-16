@@ -7,6 +7,7 @@ import (
 	"os"
 
 	tmproofs "github.com/confio/proofs-tendermint"
+	"github.com/confio/proofs-tendermint/helpers"
 )
 
 /**
@@ -20,9 +21,13 @@ this will be an auto-generated existence proof in the form:
 **/
 
 func main() {
-	proof := tmproofs.GenerateRangeProof(157)
+	data := helpers.BuildMap(157)
+	root := helpers.CalcRoot(data)
 
-	converted, err := tmproofs.ConvertExistenceProof(proof.Proof, proof.Key, proof.Value)
+	keys := helpers.SortedKeys(data)
+	key := []byte(helpers.GetKey(keys, helpers.Middle))
+
+	converted, err := tmproofs.CreateMembershipProof(data, key)
 	if err != nil {
 		fmt.Printf("Error: convert proof: %+v\n", err)
 		os.Exit(1)
@@ -35,7 +40,7 @@ func main() {
 	}
 
 	res := map[string]interface{}{
-		"root":      hex.EncodeToString(proof.RootHash),
+		"root":      hex.EncodeToString(root),
 		"existence": hex.EncodeToString(binary),
 	}
 	out, err := json.MarshalIndent(res, "", "  ")
