@@ -18,7 +18,7 @@ var TendermintSpec = &proofs.ProofSpec{
 	InnerSpec: &proofs.InnerSpec{
 		ChildOrder: []int32{0, 1},
 		MinPrefixLength: 1,
-		MaxPrefixLength: 10,
+		MaxPrefixLength: 1,
 		ChildSize: 32, // (no length byte)
 	},
 }
