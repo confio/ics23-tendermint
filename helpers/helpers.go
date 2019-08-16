@@ -1,4 +1,4 @@
-package iavlproofs
+package helpers
 
 import (
 	"github.com/tendermint/tendermint/crypto/merkle"
