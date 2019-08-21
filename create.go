@@ -1,14 +1,29 @@
 package tmproofs
 
-
 import (
 	"fmt"
 	"sort"
 
-	proofs "github.com/confio/proofs/go"
 	"github.com/confio/proofs-tendermint/helpers"
+	proofs "github.com/confio/proofs/go"
 	"github.com/tendermint/tendermint/crypto/merkle"
 )
+
+// TendermintSpec constrains the format from proofs-tendermint (crypto/merkle SimpleProof)
+var TendermintSpec = &proofs.ProofSpec{
+	LeafSpec: &proofs.LeafOp{
+		Prefix:       []byte{0},
+		Hash:         proofs.HashOp_SHA256,
+		PrehashValue: proofs.HashOp_SHA256,
+		Length:       proofs.LengthOp_VAR_PROTO,
+	},
+	InnerSpec: &proofs.InnerSpec{
+		ChildOrder:      []int32{0, 1},
+		MinPrefixLength: 1,
+		MaxPrefixLength: 1,
+		ChildSize:       32, // (no length byte)
+	},
+}
 
 /*
 CreateMembershipProof will produce a CommitmentProof that the given key (and queries value) exists in the iavl tree.
@@ -77,7 +92,7 @@ func createExistenceProof(data map[string][]byte, key []byte) (*proofs.Existence
 	if !ok {
 		return nil, fmt.Errorf("cannot make existence proof if key is not in map")
 	}
-	
+
 	_, proofs, _ := merkle.SimpleProofsFromMap(data)
 	proof := proofs[string(key)]
 	if proof == nil {
@@ -86,4 +101,3 @@ func createExistenceProof(data map[string][]byte, key []byte) (*proofs.Existence
 
 	return convertExistenceProof(proof, key, value)
 }
-

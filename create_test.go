@@ -7,23 +7,6 @@ import (
 	proofs "github.com/confio/proofs/go"
 )
 
-// TendermintSpec constrains the format from proofs-tendermint (crypto/merkle SimpleProof)
-var TendermintSpec = &proofs.ProofSpec{
-	LeafSpec: &proofs.LeafOp{
-		Prefix:       []byte{0},
-		Hash:         proofs.HashOp_SHA256,
-		PrehashValue: proofs.HashOp_SHA256,
-		Length:       proofs.LengthOp_VAR_PROTO,
-	},
-	InnerSpec: &proofs.InnerSpec{
-		ChildOrder: []int32{0, 1},
-		MinPrefixLength: 1,
-		MaxPrefixLength: 1,
-		ChildSize: 32, // (no length byte)
-	},
-}
-
-
 func TestCreateMembership(t *testing.T) {
 	cases := map[string]struct {
 		size int
