@@ -4,20 +4,20 @@ import (
 	"fmt"
 	"sort"
 
-	"github.com/confio/proofs-tendermint/helpers"
-	proofs "github.com/confio/proofs/go"
+	"github.com/confio/ics23-tendermint/helpers"
+	ics23 "github.com/confio/ics23/go"
 	"github.com/tendermint/tendermint/crypto/merkle"
 )
 
-// TendermintSpec constrains the format from proofs-tendermint (crypto/merkle SimpleProof)
-var TendermintSpec = &proofs.ProofSpec{
-	LeafSpec: &proofs.LeafOp{
+// TendermintSpec constrains the format from ics23-tendermint (crypto/merkle SimpleProof)
+var TendermintSpec = &ics23.ProofSpec{
+	LeafSpec: &ics23.LeafOp{
 		Prefix:       []byte{0},
-		Hash:         proofs.HashOp_SHA256,
-		PrehashValue: proofs.HashOp_SHA256,
-		Length:       proofs.LengthOp_VAR_PROTO,
+		Hash:         ics23.HashOp_SHA256,
+		PrehashValue: ics23.HashOp_SHA256,
+		Length:       ics23.LengthOp_VAR_PROTO,
 	},
-	InnerSpec: &proofs.InnerSpec{
+	InnerSpec: &ics23.InnerSpec{
 		ChildOrder:      []int32{0, 1},
 		MinPrefixLength: 1,
 		MaxPrefixLength: 1,
@@ -29,13 +29,13 @@ var TendermintSpec = &proofs.ProofSpec{
 CreateMembershipProof will produce a CommitmentProof that the given key (and queries value) exists in the iavl tree.
 If the key doesn't exist in the tree, this will return an error.
 */
-func CreateMembershipProof(data map[string][]byte, key []byte) (*proofs.CommitmentProof, error) {
+func CreateMembershipProof(data map[string][]byte, key []byte) (*ics23.CommitmentProof, error) {
 	exist, err := createExistenceProof(data, key)
 	if err != nil {
 		return nil, err
 	}
-	proof := &proofs.CommitmentProof{
-		Proof: &proofs.CommitmentProof_Exist{
+	proof := &ics23.CommitmentProof{
+		Proof: &ics23.CommitmentProof_Exist{
 			Exist: exist,
 		},
 	}
@@ -46,7 +46,7 @@ func CreateMembershipProof(data map[string][]byte, key []byte) (*proofs.Commitme
 CreateNonMembershipProof will produce a CommitmentProof that the given key doesn't exist in the iavl tree.
 If the key exists in the tree, this will return an error.
 */
-func CreateNonMembershipProof(data map[string][]byte, key []byte) (*proofs.CommitmentProof, error) {
+func CreateNonMembershipProof(data map[string][]byte, key []byte) (*ics23.CommitmentProof, error) {
 	// ensure this key is not in the store
 	if _, ok := data[string(key)]; ok {
 		return nil, fmt.Errorf("Cannot create non-membership proof if key is in map")
@@ -56,7 +56,7 @@ func CreateNonMembershipProof(data map[string][]byte, key []byte) (*proofs.Commi
 	rightidx := sort.SearchStrings(keys, string(key))
 
 	var err error
-	nonexist := &proofs.NonExistenceProof{
+	nonexist := &ics23.NonExistenceProof{
 		Key: key,
 	}
 
@@ -79,22 +79,22 @@ func CreateNonMembershipProof(data map[string][]byte, key []byte) (*proofs.Commi
 
 	}
 
-	proof := &proofs.CommitmentProof{
-		Proof: &proofs.CommitmentProof_Nonexist{
+	proof := &ics23.CommitmentProof{
+		Proof: &ics23.CommitmentProof_Nonexist{
 			Nonexist: nonexist,
 		},
 	}
 	return proof, nil
 }
 
-func createExistenceProof(data map[string][]byte, key []byte) (*proofs.ExistenceProof, error) {
+func createExistenceProof(data map[string][]byte, key []byte) (*ics23.ExistenceProof, error) {
 	value, ok := data[string(key)]
 	if !ok {
 		return nil, fmt.Errorf("cannot make existence proof if key is not in map")
 	}
 
-	_, proofs, _ := merkle.SimpleProofsFromMap(data)
-	proof := proofs[string(key)]
+	_, ics23, _ := merkle.SimpleProofsFromMap(data)
+	proof := ics23[string(key)]
 	if proof == nil {
 		return nil, fmt.Errorf("returned no proof for key")
 	}

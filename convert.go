@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"math/bits"
 
-	proofs "github.com/confio/proofs/go"
+	ics23 "github.com/confio/ics23/go"
 	"github.com/tendermint/tendermint/crypto/merkle"
 )
 
@@ -13,13 +13,13 @@ import (
 //
 // This is the simplest case of the range proof and we will focus on
 // demoing compatibility here
-func convertExistenceProof(p *merkle.SimpleProof, key, value []byte) (*proofs.ExistenceProof, error) {
+func convertExistenceProof(p *merkle.SimpleProof, key, value []byte) (*ics23.ExistenceProof, error) {
 	path, err := convertInnerOps(p)
 	if err != nil {
 		return nil, err
 	}
 
-	proof := &proofs.ExistenceProof{
+	proof := &ics23.ExistenceProof{
 		Key:   key,
 		Value: value,
 		Leaf:  convertLeafOp(),
@@ -30,20 +30,20 @@ func convertExistenceProof(p *merkle.SimpleProof, key, value []byte) (*proofs.Ex
 
 // this is adapted from merkle/hash.go:leafHash()
 // and merkle/simple_map.go:KVPair.Bytes()
-func convertLeafOp() *proofs.LeafOp {
+func convertLeafOp() *ics23.LeafOp {
 	prefix := []byte{0}
 
-	return &proofs.LeafOp{
-		Hash:         proofs.HashOp_SHA256,
-		PrehashKey:   proofs.HashOp_NO_HASH,
-		PrehashValue: proofs.HashOp_SHA256,
-		Length:       proofs.LengthOp_VAR_PROTO,
+	return &ics23.LeafOp{
+		Hash:         ics23.HashOp_SHA256,
+		PrehashKey:   ics23.HashOp_NO_HASH,
+		PrehashValue: ics23.HashOp_SHA256,
+		Length:       ics23.LengthOp_VAR_PROTO,
 		Prefix:       prefix,
 	}
 }
 
-func convertInnerOps(p *merkle.SimpleProof) ([]*proofs.InnerOp, error) {
-	var inners []*proofs.InnerOp
+func convertInnerOps(p *merkle.SimpleProof) ([]*ics23.InnerOp, error) {
+	var inners []*ics23.InnerOp
 	path := buildPath(p.Index, p.Total)
 
 	if len(p.Aunts) != len(path) {
@@ -54,7 +54,7 @@ func convertInnerOps(p *merkle.SimpleProof) ([]*proofs.InnerOp, error) {
 		auntRight := path[i]
 
 		// combine with: 0x01 || lefthash || righthash
-		inner := &proofs.InnerOp{Hash: proofs.HashOp_SHA256}
+		inner := &ics23.InnerOp{Hash: ics23.HashOp_SHA256}
 		if auntRight {
 			inner.Prefix = []byte{1}
 			inner.Suffix = aunt

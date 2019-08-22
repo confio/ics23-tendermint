@@ -7,9 +7,9 @@ import (
 	"os"
 	"strconv"
 
-	tmproofs "github.com/confio/proofs-tendermint"
-	"github.com/confio/proofs-tendermint/helpers"
-	proofs "github.com/confio/proofs/go"
+	tmproofs "github.com/confio/ics23-tendermint"
+	"github.com/confio/ics23-tendermint/helpers"
+	ics23 "github.com/confio/ics23/go"
 )
 
 /**
@@ -48,7 +48,7 @@ func main() {
 		key = []byte(helpers.GetNonKey(allkeys, loc))
 	}
 
-	var proof *proofs.CommitmentProof
+	var proof *ics23.CommitmentProof
 	if exist {
 		proof, err = tmproofs.CreateMembershipProof(data, key)
 	} else {
@@ -115,4 +115,3 @@ func parseArgs(args []string) (exist bool, loc helpers.Where, size int, err erro
 
 	return
 }
-

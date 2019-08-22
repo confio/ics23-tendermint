@@ -3,8 +3,8 @@ package tmproofs
 import (
 	"testing"
 
-	"github.com/confio/proofs-tendermint/helpers"
-	proofs "github.com/confio/proofs/go"
+	"github.com/confio/ics23-tendermint/helpers"
+	ics23 "github.com/confio/ics23/go"
 )
 
 func TestCreateMembership(t *testing.T) {
@@ -32,7 +32,7 @@ func TestCreateMembership(t *testing.T) {
 			}
 
 			root := helpers.CalcRoot(data)
-			valid := proofs.VerifyMembership(TendermintSpec, root, proof, []byte(key), val)
+			valid := ics23.VerifyMembership(TendermintSpec, root, proof, []byte(key), val)
 			if !valid {
 				t.Fatalf("Membership Proof Invalid")
 			}
@@ -65,7 +65,7 @@ func TestCreateNonMembership(t *testing.T) {
 			}
 
 			root := helpers.CalcRoot(data)
-			valid := proofs.VerifyNonMembership(TendermintSpec, root, proof, []byte(key))
+			valid := ics23.VerifyNonMembership(TendermintSpec, root, proof, []byte(key))
 			if !valid {
 				t.Fatalf("Non Membership Proof Invalid")
 			}

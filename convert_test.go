@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"testing"
-	"github.com/confio/proofs-tendermint/helpers"
+	"github.com/confio/ics23-tendermint/helpers"
 )
 
 func TestLeafOp(t *testing.T) {
