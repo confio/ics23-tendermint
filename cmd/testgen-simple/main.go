@@ -25,11 +25,22 @@ this will be an auto-generated existence proof in the form:
 
 It accepts two or three arguments (optional size: default 400)
 
-testgen-iavl [exist|nonexist] [left|right|middle] <size>
+  testgen-simple [exist|nonexist] [left|right|middle] <size>
+
+If you make a batch, we have a different format:
+
+{
+	"root": "<hex encoded root hash of tree>",
+	"proof": "<hex encoded protobuf marshaling of a CommitmentProof (Compressed Batch)>",
+	"items": [{
+		"key": "<hex encoded key to prove>",
+		"value": "<hex encoded value to prove> (empty on non-existence)",
+	}, ...]
+}
 
 The batch variant accepts 5 arguments:
 
-testgen-iavl [batch] [size] [num exist] [num nonexist]
+  testgen-simple [batch] [size] [num exist] [num nonexist]
 **/
 
 func main() {
@@ -37,7 +48,7 @@ func main() {
 		err := doBatch(os.Args[2:])
 		if err != nil {
 			fmt.Printf("%+v\n", err)
-			fmt.Println("Usage: testgen-iavl [batch] [size] [# exist] [# nonexist]")
+			fmt.Println("Usage: testgen-simple [batch] [size] [# exist] [# nonexist]")
 			os.Exit(1)
 		}
 		return
@@ -46,7 +57,7 @@ func main() {
 	exist, loc, size, err := parseArgs(os.Args)
 	if err != nil {
 		fmt.Printf("%+v\n", err)
-		fmt.Println("Usage: testgen-iavl [exist|nonexist] [left|right|middle] <size>")
+		fmt.Println("Usage: testgen-simple [exist|nonexist] [left|right|middle] <size>")
 		os.Exit(1)
 	}
 
