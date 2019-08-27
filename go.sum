@@ -14,6 +14,8 @@ github.com/btcsuite/winsvc v1.0.0/go.mod h1:jsenWakMcC0zFBFurPLEAyrnc/teJEM1O46f
 github.com/client9/misspell v0.3.4/go.mod h1:qj6jICC3Q7zFZvVWo7KLAzC3yx5G7kyvSDkc90ppPyw=
 github.com/confio/ics23/go v0.0.0-20190822100509-78f9450bdba4 h1:HUtZVwVO044kaLu2vJrPJZiI63wnd6tzVQHKpKevDSE=
 github.com/confio/ics23/go v0.0.0-20190822100509-78f9450bdba4/go.mod h1:rWOCtymU+x3jM2Uib0aszytidui3pfpffvjCfNwATaE=
+github.com/confio/ics23/go v0.0.0-20190826193722-f04e9eb8782a h1:ENE/KdfQIaz7K5E4N1oI64IIT6aNMJlF0Z9wVwSf+H0=
+github.com/confio/ics23/go v0.0.0-20190826193722-f04e9eb8782a/go.mod h1:rWOCtymU+x3jM2Uib0aszytidui3pfpffvjCfNwATaE=
 github.com/davecgh/go-spew v0.0.0-20171005155431-ecdeabc65495/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
