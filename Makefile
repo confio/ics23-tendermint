@@ -12,7 +12,7 @@ test:
 	go test -mod=readonly .
 
 testgen:
-	# Usage: GENDIR=CONFIO/PROOFS/testdata/tendermint make testgen
+	# Usage: GENDIR=../ics23/testdata/tendermint make testgen
 	@mkdir -p "$(GENDIR)"
 	go run -mod=readonly ./cmd/testgen-simple exist left 987 > "$(GENDIR)"/exist_left.json
 	go run -mod=readonly ./cmd/testgen-simple exist middle 812 > "$(GENDIR)"/exist_middle.json
