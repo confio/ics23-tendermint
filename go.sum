@@ -18,6 +18,8 @@ github.com/confio/ics23/go v0.0.0-20190826193722-f04e9eb8782a h1:ENE/KdfQIaz7K5E
 github.com/confio/ics23/go v0.0.0-20190826193722-f04e9eb8782a/go.mod h1:rWOCtymU+x3jM2Uib0aszytidui3pfpffvjCfNwATaE=
 github.com/confio/ics23/go v0.0.0-20190827155221-fd7dc387df77 h1:Z9qMeSGpcvAuBNPPClGqKQ9iENWCv/+GZZcEjeujl88=
 github.com/confio/ics23/go v0.0.0-20190827155221-fd7dc387df77/go.mod h1:rWOCtymU+x3jM2Uib0aszytidui3pfpffvjCfNwATaE=
+github.com/confio/ics23/go v0.0.0-20190827163738-67deea06493e h1:yhvB+Wg9rCnUQvdAx65iIrpqRjh3VGFCFdl779IvRjY=
+github.com/confio/ics23/go v0.0.0-20190827163738-67deea06493e/go.mod h1:rWOCtymU+x3jM2Uib0aszytidui3pfpffvjCfNwATaE=
 github.com/davecgh/go-spew v0.0.0-20171005155431-ecdeabc65495/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
