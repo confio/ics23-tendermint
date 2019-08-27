@@ -176,11 +176,12 @@ func doBatch(args []string) error {
 		items = append(items, item)
 	}
 
-	// TODO: combine all proofs into batch
-	proof := &ics23.CommitmentProof{}
-
-	// compress proof
-	proof = ics23.Compress(proof)
+	// combine all proofs into batch and compress
+	proof, err := ics23.CombineProofs(proofs)
+	if err != nil {
+		fmt.Printf("Error: combine proofs: %+v\n", err)
+		os.Exit(1)
+	}
 
 	binary, err := proof.Marshal()
 	if err != nil {
