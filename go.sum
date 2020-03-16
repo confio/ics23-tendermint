@@ -47,6 +47,10 @@ github.com/cockroachdb/datadriven v0.0.0-20190809214429-80d97fb3cbaa/go.mod h1:z
 github.com/codahale/hdrhistogram v0.0.0-20161010025455-3a0bb77429bd/go.mod h1:sE/e/2PUdi/liOCUjSTXgM1o87ZssimdTWN964YiIeI=
 github.com/confio/ics23/go v0.0.0-20190827163738-67deea06493e h1:yhvB+Wg9rCnUQvdAx65iIrpqRjh3VGFCFdl779IvRjY=
 github.com/confio/ics23/go v0.0.0-20190827163738-67deea06493e/go.mod h1:rWOCtymU+x3jM2Uib0aszytidui3pfpffvjCfNwATaE=
+github.com/confio/ics23/go v0.0.0-20200316200307-492bd3c6f3f6 h1:WyZuWel0DTa7seGeWw0Q1KZ67jHtvUbgLYH1bCWK3uo=
+github.com/confio/ics23/go v0.0.0-20200316200307-492bd3c6f3f6/go.mod h1:W1I3XC8d9N8OTu/ct5VJ84ylcOunZwMXsWkd27nvVts=
+github.com/confio/ics23/go v0.0.0-20200316202129-754fba6c5fdb h1:o8vRNhuwVbBqBgx2aXnGmss25I5d3pNFpQbjcU1wPL4=
+github.com/confio/ics23/go v0.0.0-20200316202129-754fba6c5fdb/go.mod h1:W1I3XC8d9N8OTu/ct5VJ84ylcOunZwMXsWkd27nvVts=
 github.com/coreos/bbolt v1.3.2/go.mod h1:iRUV2dpdMOn7Bo10OQBFzIJO9kkE559Wcmn+qkEiiKk=
 github.com/coreos/etcd v3.3.10+incompatible/go.mod h1:uF7uidLiAD3TWHmW31ZFd/JWoc32PjwdhPthX9715RE=
 github.com/coreos/go-semver v0.2.0/go.mod h1:nnelYz7RCh+5ahJtPPxZlU+153eP4D4r3EedlOD2RNk=
