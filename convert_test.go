@@ -3,8 +3,8 @@ package tmproofs
 import (
 	"bytes"
 	"fmt"
-	"testing"
 	"github.com/confio/ics23-tendermint/helpers"
+	"testing"
 )
 
 func TestLeafOp(t *testing.T) {
