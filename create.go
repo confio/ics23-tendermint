@@ -20,8 +20,9 @@ var TendermintSpec = &ics23.ProofSpec{
 	InnerSpec: &ics23.InnerSpec{
 		ChildOrder:      []int32{0, 1},
 		MinPrefixLength: 1,
-		MaxPrefixLength: 1,
+		MaxPrefixLength: 1,  // fixed prefix + one child
 		ChildSize:       32, // (no length byte)
+		Hash:            ics23.HashOp_SHA256,
 	},
 }
 
