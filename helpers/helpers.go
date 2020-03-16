@@ -4,7 +4,7 @@ import (
 	"sort"
 
 	"github.com/tendermint/tendermint/crypto/merkle"
-	cmn "github.com/tendermint/tendermint/libs/common"
+	"github.com/tendermint/tendermint/libs/rand"
 )
 
 // SimpleResult contains a merkle.SimpleProof along with all data needed to build the confio/proof
@@ -19,7 +19,7 @@ type SimpleResult struct {
 //
 // returns a range proof and the root hash of the tree
 func GenerateRangeProof(size int, loc Where) *SimpleResult {
-	data  := BuildMap(size)
+	data := BuildMap(size)
 	root, proofs, allkeys := merkle.SimpleProofsFromMap(data)
 
 	key := GetKey(allkeys, loc)
@@ -33,8 +33,6 @@ func GenerateRangeProof(size int, loc Where) *SimpleResult {
 	}
 	return res
 }
-
-
 
 // Where selects a location for a key - Left, Right, or Middle
 type Where int
@@ -61,7 +59,6 @@ func CalcRoot(data map[string][]byte) []byte {
 	return root
 }
 
-
 // GetKey this returns a key, on Left/Right/Middle
 func GetKey(allkeys []string, loc Where) string {
 	if loc == Left {
@@ -71,7 +68,7 @@ func GetKey(allkeys []string, loc Where) string {
 		return allkeys[len(allkeys)-1]
 	}
 	// select a random index between 1 and allkeys-2
-	idx := cmn.RandInt()%(len(allkeys)-2) + 1
+	idx := rand.Int()%(len(allkeys)-2) + 1
 	return allkeys[idx]
 }
 
@@ -99,7 +96,7 @@ func BuildMap(size int) map[string][]byte {
 	data := make(map[string][]byte)
 	// insert lots of info and store the bytes
 	for i := 0; i < size; i++ {
-		key := cmn.RandStr(20)
+		key := rand.Str(20)
 		data[key] = toValue(key)
 	}
 	return data
