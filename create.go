@@ -100,5 +100,5 @@ func createExistenceProof(data map[string][]byte, key []byte) (*ics23.ExistenceP
 		return nil, fmt.Errorf("returned no proof for key")
 	}
 
-	return convertExistenceProof(proof, key, value)
+	return ConvertExistenceProof(proof, key, value)
 }
