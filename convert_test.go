@@ -3,14 +3,15 @@ package tmproofs
 import (
 	"bytes"
 	"fmt"
-	"github.com/confio/ics23-tendermint/helpers"
 	"testing"
+
+	"github.com/confio/ics23-tendermint/helpers"
 )
 
 func TestLeafOp(t *testing.T) {
 	proof := helpers.GenerateRangeProof(20, helpers.Middle)
 
-	converted, err := convertExistenceProof(proof.Proof, proof.Key, proof.Value)
+	converted, err := ConvertExistenceProof(proof.Proof, proof.Key, proof.Value)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -88,7 +89,7 @@ func TestConvertProof(t *testing.T) {
 		t.Run(fmt.Sprintf("Run %d", i), func(t *testing.T) {
 			proof := helpers.GenerateRangeProof(57, helpers.Left)
 
-			converted, err := convertExistenceProof(proof.Proof, proof.Key, proof.Value)
+			converted, err := ConvertExistenceProof(proof.Proof, proof.Key, proof.Value)
 			if err != nil {
 				t.Fatal(err)
 			}

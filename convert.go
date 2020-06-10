@@ -8,12 +8,12 @@ import (
 	"github.com/tendermint/tendermint/crypto/merkle"
 )
 
-// convertExistenceProof will convert the given proof into a valid
+// ConvertExistenceProof will convert the given proof into a valid
 // existence proof, if that's what it is.
 //
 // This is the simplest case of the range proof and we will focus on
 // demoing compatibility here
-func convertExistenceProof(p *merkle.SimpleProof, key, value []byte) (*ics23.ExistenceProof, error) {
+func ConvertExistenceProof(p *merkle.SimpleProof, key, value []byte) (*ics23.ExistenceProof, error) {
 	path, err := convertInnerOps(p)
 	if err != nil {
 		return nil, err
